@@ -33,7 +33,22 @@ if you don't export anything, such as for a purely object-oriented module.
 
 =head1 SUBROUTINES/METHODS
 
+=head2 extract_data_section
+
+Extract the data section from a module
+
 =cut
+
+sub extract_data_section {
+    my ($self) = @_;
+    no strict 'refs';
+    my $class = ref($self) || $self;
+    my $glob = *{"${class}::DATA"};
+    local $/ = undef;
+    my $data = <$glob>;
+    $data = '' unless defined $data;
+    return $data;
+}
 
 
 =head1 AUTHOR
