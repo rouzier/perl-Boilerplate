@@ -35,6 +35,18 @@ if you don't export anything, such as for a purely object-oriented module.
 
 =head1 SUBROUTINES/METHODS
 
+=head2 new
+
+TODO: documention
+
+=cut
+
+sub new {
+    my ($proto) = @_;
+    my $class = ref($proto) || $proto;
+    return bless {}, $class;
+}
+
 =head2 extract_data_section
 
 Extract the data section from a module
