@@ -6,38 +6,24 @@ use Template;
 
 =head1 NAME
 
-Boilerplate - The great new Boilerplate!
+Boilerplate::Bundle - The base class for Boilerplate::Bundle
 
 =head1 VERSION
 
-Version 0.01
+Version 0.10
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.10';
 our %CACHED_DATA;
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Boilerplate;
-
-    my $foo = Boilerplate->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
+=head1 METHODS
 
 =head2 new
 
-TODO: documention
+The constructor for Boilerplate::Bundle
 
 =cut
 
@@ -45,6 +31,26 @@ sub new {
     my ($proto) = @_;
     my $class = ref($proto) || $proto;
     return bless {}, $class;
+}
+
+=head2 process
+
+Process the bundle
+
+=cut
+
+sub process {
+    my ($self, @args) = @_;
+    return ;
+}
+
+=head2 make_variables
+
+=cut
+
+sub make_variables {
+    my ($self) = @_;
+    return {};
 }
 
 =head2 extract_data_section
@@ -84,8 +90,6 @@ sub get_data_map {
 
 =head2 output_bundle
 
-TODO: documention
-
 =cut
 
 sub output_bundle {
@@ -99,8 +103,6 @@ sub output_bundle {
 }
 
 =head2 process_file_path
-
-TODO: documention
 
 =cut
 

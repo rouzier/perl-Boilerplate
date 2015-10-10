@@ -1,2 +1,34 @@
 #!/usr/bin/perl
 
+=head1 NAME
+
+boilerplate - script creating boilerplate code
+
+=head1 SYNOPSIS
+
+boilerplate
+
+ -h --help      This help message
+
+=cut
+
+use Getopt::Long;
+use Pod::Usage qw(pod2usage);
+our %options;
+
+GetOptions(\%options,"help|h") or pod2usage(2);
+pod2usage(1) if $options{help};
+
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2015 James Rouzier.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See http://dev.perl.org/licenses/ for more information.
+
+
+=cut
