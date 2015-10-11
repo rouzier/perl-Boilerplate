@@ -110,7 +110,7 @@ sub output_bundle {
 sub process_file_path {
     my ($self, $file_path_template, $vars) = @_;
     my $file_path = $file_path_template;
-    $file_path =~ s/\$\{([a-zA-Z0-9_]+)\}/$vars->{$1}/g;
+    $file_path =~ s/\$\{([a-zA-Z0-9_]+)\}/$vars->{$1} \/\/ ''/ge;
     return $file_path;
 }
 
