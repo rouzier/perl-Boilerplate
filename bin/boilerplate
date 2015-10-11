@@ -2,23 +2,38 @@
 
 =head1 NAME
 
-boilerplate - script creating boilerplate code
+boilerplate - script for creating boilerplate code
 
 =head1 SYNOPSIS
 
-boilerplate
+boilerplate [options] BundleName [bundle options]
 
+ -l --list      List available bundles
  -h --help      This help message
 
 =cut
 
-use Getopt::Long;
+use Getopt::Long qw(:config require_order);
+use lib qw(lib);
 use Pod::Usage qw(pod2usage);
+use Module::Pluggable search_path => [Boilerplate::Bundle], sub_name => '_bundles';
 our %options;
 
-GetOptions(\%options,"help|h") or pod2usage(2);
+GetOptions(\%options,"help|h","list|l") or pod2usage(2);
 pod2usage(1) if $options{help};
 
+if ($options{list} ) {
+    list_bundles();
+    exit 0;
+}
+
+sub list_bundles {
+    print join("\n",bundles(),"");
+}
+
+sub bundles {
+    map { s/Boilerplate::Bundle:://; $_} _bundles();
+}
 
 =head1 LICENSE AND COPYRIGHT
 
