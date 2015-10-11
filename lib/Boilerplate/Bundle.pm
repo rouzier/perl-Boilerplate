@@ -28,9 +28,10 @@ The constructor for Boilerplate::Bundle
 =cut
 
 sub new {
-    my ($proto) = @_;
+    my ($proto, @options) = @_;
     my $class = ref($proto) || $proto;
-    return bless {}, $class;
+    my $self = bless { options => \@options }, $class;
+    return $self;
 }
 
 =head2 process
