@@ -17,6 +17,7 @@ use Getopt::Long qw(:config require_order);
 use lib qw(lib);
 use Pod::Usage qw(pod2usage);
 use Module::Pluggable search_path => [Boilerplate::Bundle], sub_name => '_bundles';
+use Module::Load;
 our %options;
 
 GetOptions(\%options,"help|h","list|l") or pod2usage(2);
@@ -26,6 +27,30 @@ if ($options{list} ) {
     list_bundles();
     exit 0;
 }
+
+unless (@ARGV) {
+    pod2usage({ -msg => "No bundle provided", -exitval => 2 });
+}
+
+my ($bundle_name, @options) = @ARGV;
+
+my $bundle_module = $bundle_name;
+
+unless ($bundle_module =~ s/^\+// ) {
+    $bundle_module = "Boilerplate::Bundle::$bundle_module";
+}
+eval {
+    load ($bundle_module);
+};
+
+if ($@) {
+    print STDERR "Cannot load the bundle $bundle_name\n";
+    exit 1;
+}
+
+my $bundle = $bundle_module->new(@options);
+
+$bundle_module->output_bundle();
 
 sub list_bundles {
     print join("\n",bundles(),"");
