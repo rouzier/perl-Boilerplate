@@ -2,26 +2,27 @@ package Boilerplate::Bundle::Boilerplate;
 
 =head1 NAME
 
-Boilerplate::Bundle::Boilerplate add documentation
-
-=cut
+Boilerplate::Bundle::Boilerplate - The boilerplate for creating boilerplate
 
 =head1 DESCRIPTION
 
 Boilerplate::Bundle::Boilerplate
 
+=head1 SYNOPSIS
+
 =cut
 
 use strict;
 use warnings;
+use base qw(Boilerplate::Bundle);
 
 =head1 AUTHOR
 
-Inverse inc. <info@inverse.ca>
+James Rouzier, C<< <rouzier at gmail.com> >>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2005-2015 Inverse inc.
+Copyright (C) 2015 James Rouzier
 
 =head1 LICENSE
 
@@ -48,6 +49,7 @@ __DATA__
 package [% fullclassname %];
 use strict;
 use warnings;
+use base qw(Boilerplate::Bundle);
 
 1;
 __DATA__
