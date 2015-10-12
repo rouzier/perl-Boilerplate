@@ -6,9 +6,22 @@ boilerplate - script for creating boilerplate code
 
 =head1 SYNOPSIS
 
-boilerplate [options] BundleName [bundle options]
+To create boilerplate from a bundle
+
+    boilerplate BundleName [BUNDLE OPTIONS]
+
+To list available bundles
+
+    boilerplate --list
+
+To create a boilerplate bundle from some files
+
+    boilerplate --create FILE1 ...
+
+Options
 
  -l --list      List available bundles
+ -c --create    List available bundles
  -h --help      This help message
 
 =cut
@@ -25,33 +38,19 @@ GetOptions(\%options,"help|h","list|l") or pod2usage(2);
 pod2usage(1) if $options{help};
 
 if ($options{list} ) {
-    print join("\n",Boilerplate->bundles(),"");
-    exit 0;
+    exit Boilerplate->list_bundles();
+}
+
+if ($options{create}) {
+    exit Boilerplate->create_bundle_from_files(@ARGV);
 }
 
 unless (@ARGV) {
     pod2usage({ -msg => "No bundle provided", -exitval => 2 });
 }
 
-my ($bundle_name, @options) = @ARGV;
+exit Boilerplate->create_boilerplate(@ARGV);
 
-my $bundle_module = $bundle_name;
-
-unless ($bundle_module =~ s/^\+// ) {
-    $bundle_module = "Boilerplate::Bundle::$bundle_module";
-}
-eval {
-    load ($bundle_module);
-};
-
-if ($@) {
-    print STDERR "Cannot load the bundle $bundle_name\n";
-    exit 1;
-}
-
-my $bundle = $bundle_module->new(@options);
-
-$bundle_module->output_bundle();
 
 =head1 LICENSE AND COPYRIGHT
 

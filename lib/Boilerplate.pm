@@ -3,10 +3,40 @@ package Boilerplate;
 use warnings;
 use strict;
 
-use Module::Pluggable search_path => ['Boilerplate::Bundle'], sub_name => '_bundles';
+use Module::Pluggable
+  search_path => ['Boilerplate::Bundle'],
+  sub_name    => '_bundles';
+
+sub list_bundles {
+    my ($class) = @_;
+    print join( "\n", $class->bundles(), "" );
+    return 0;
+}
+
+sub create_bundle_from_files {
+    my ( $class, @files ) = @_;
+    return 0;
+}
+
+sub create_boilerplate {
+    my ( $class, $bundle_name, @options ) = @_;
+    my $bundle_module = $bundle_name;
+    unless ( $bundle_module =~ s/^\+// ) {
+        $bundle_module = "Boilerplate::Bundle::$bundle_module";
+    }
+    eval { load($bundle_module); };
+
+    if ($@) {
+        print STDERR "Cannot load the bundle $bundle_name\n";
+        return 1;
+    }
+    my $bundle = $bundle_module->new(@options);
+    $bundle_module->output_bundle();
+    return 0;
+}
 
 sub bundles {
-    map { s/Boilerplate::Bundle:://; $_} _bundles();
+    map { s/Boilerplate::Bundle:://; $_ } _bundles();
 }
 
 =head1 NAME
@@ -20,7 +50,6 @@ Version 0.10
 =cut
 
 our $VERSION = '0.10';
-
 
 =head1 SYNOPSIS
 
@@ -96,4 +125,4 @@ See http://dev.perl.org/licenses/ for more information.
 
 =cut
 
-1; # End of Boilerplate
+1;    # End of Boilerplate
