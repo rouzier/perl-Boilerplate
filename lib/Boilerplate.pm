@@ -3,17 +3,23 @@ package Boilerplate;
 use warnings;
 use strict;
 
+use Module::Pluggable search_path => ['Boilerplate::Bundle'], sub_name => '_bundles';
+
+sub bundles {
+    map { s/Boilerplate::Bundle:://; $_} _bundles();
+}
+
 =head1 NAME
 
 Boilerplate - The great new Boilerplate!
 
 =head1 VERSION
 
-Version 0.01
+Version 0.10
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.10';
 
 
 =head1 SYNOPSIS

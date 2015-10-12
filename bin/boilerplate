@@ -13,10 +13,11 @@ boilerplate [options] BundleName [bundle options]
 
 =cut
 
+use strict;
+use warnings;
 use Getopt::Long qw(:config require_order);
-use lib qw(lib);
+use Boilerplate;
 use Pod::Usage qw(pod2usage);
-use Module::Pluggable search_path => [Boilerplate::Bundle], sub_name => '_bundles';
 use Module::Load;
 our %options;
 
@@ -24,7 +25,7 @@ GetOptions(\%options,"help|h","list|l") or pod2usage(2);
 pod2usage(1) if $options{help};
 
 if ($options{list} ) {
-    list_bundles();
+    print join("\n",Boilerplate->bundles(),"");
     exit 0;
 }
 
@@ -51,14 +52,6 @@ if ($@) {
 my $bundle = $bundle_module->new(@options);
 
 $bundle_module->output_bundle();
-
-sub list_bundles {
-    print join("\n",bundles(),"");
-}
-
-sub bundles {
-    map { s/Boilerplate::Bundle:://; $_} _bundles();
-}
 
 =head1 LICENSE AND COPYRIGHT
 
