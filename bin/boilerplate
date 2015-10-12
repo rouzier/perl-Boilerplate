@@ -34,7 +34,7 @@ use Pod::Usage qw(pod2usage);
 use Module::Load;
 our %options;
 
-GetOptions(\%options,"help|h","list|l") or pod2usage(2);
+GetOptions(\%options,"help|h","list|l","create|c") or pod2usage(2);
 pod2usage(1) if $options{help};
 
 if ($options{list} ) {
