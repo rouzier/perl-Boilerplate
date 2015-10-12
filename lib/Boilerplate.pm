@@ -14,7 +14,40 @@ sub list_bundles {
 }
 
 sub create_bundle_from_files {
-    my ( $class, @files ) = @_;
+    my ( $class, $name, @files ) = @_;
+    my $bundle_header =<<"EOS";
+package Boilerplate::Bundle::$name;
+
+=head1 NAME
+
+Boilerplate::Bundle::$name - The boilerplate for $name
+
+=head1 DESCRIPTION
+
+Boilerplate::Bundle::$name
+
+=head1 SYNOPSIS
+
+=cut
+
+use strict;
+use warnings;
+use base qw(Boilerplate::Bundle);
+
+1;
+__DATA__
+EOS
+    my $content = $bundle_header;
+    for my $file (@files) {
+        $content .= "=== $file ===\n";
+        my $file_content = slurp_file($file);
+        unless (defined $file_content) {
+            print STDERR "error reading from file '$file'\n";
+            return 1;
+        }
+        $content .= $file_content;
+    }
+    print $content;
     return 0;
 }
 
@@ -37,6 +70,15 @@ sub create_boilerplate {
 
 sub bundles {
     map { s/Boilerplate::Bundle:://; $_ } _bundles();
+}
+
+sub slurp_file {
+    my ($file) = @_;
+    local $/ = undef;
+    open(my $fh, "<$file") or return undef;
+    my $content = <$fh>;
+    close($fh);
+    return $content;
 }
 
 =head1 NAME
