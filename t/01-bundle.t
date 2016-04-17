@@ -1,6 +1,6 @@
 #!perl
 
-use Test::More tests => 4;
+use Test::More tests => 6;
 
 BEGIN {
     use_ok( 'Boilerplate::Bundle' );
@@ -49,3 +49,7 @@ EOS
 };
 
 is_deeply(TestData->get_data_map, $data_map,"Get the data map");
+
+is_deeply(TestData->get_default_include_paths, ["$Bin/inc", "$Bin/boilerplate"]);
+
+is(TestData->get_bundle_base_path, $Bin);

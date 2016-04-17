@@ -2,6 +2,7 @@ package Boilerplate::Bundle;
 
 use warnings;
 use strict;
+use File::Spec::Functions qw(catfile canonpath splitpath);
 use Template;
 
 =head1 NAME
@@ -112,6 +113,38 @@ sub process_file_path {
     my $file_path = $file_path_template;
     $file_path =~ s/\$\{([a-zA-Z0-9_]+)\}/$vars->{$1} \/\/ ''/ge;
     return $file_path;
+}
+
+=head2 get_bundle_base_path
+
+Get the bundle base path
+
+=cut
+
+sub get_bundle_base_path {
+    my ($proto) = @_;
+    my $class = ref($proto) || $proto;
+    my $key = $class;
+    $key =~ s/::/\//g;
+    $key .= ".pm";
+    if (exists $INC{$key}) {
+        my $path = $INC{$key};
+        my ($volume, $directories, $file) = splitpath($path);
+        return canonpath($directories);
+    }
+    return;
+}
+
+=head2 get_default_include_paths
+
+Get the default include paths
+
+=cut
+
+sub get_default_include_paths {
+    my ($self) = @_;
+    my $base_path = $self->get_bundle_base_path;
+    return $base_path ?  [catfile($base_path, "inc"), catfile($base_path, "boilerplate") ] : [];
 }
 
 =head1 AUTHOR
