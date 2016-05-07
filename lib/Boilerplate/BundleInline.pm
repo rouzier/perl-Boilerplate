@@ -120,14 +120,12 @@ sub process_file_path {
 
 =head2 _assert_var_exists
 
-TODO: documention
-
 =cut
 
 sub _assert_var_exists {
     my ($self, $vars, $name) = @_;
     die "$name is not defined" unless exists $vars->{$name} && defined $vars->{$name};
-    return ;
+    return $vars->{$name} ;
 }
 
 
@@ -202,7 +200,7 @@ sub _get_isa {
 }
 
 
-=head2 get_parent_paths
+=head2 get_parent_template_paths
 
 Get the paths of the parents
 
