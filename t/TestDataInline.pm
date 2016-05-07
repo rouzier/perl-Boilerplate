@@ -1,15 +1,15 @@
-package TestData;
-use base qw(Boilerplate::Bundle);
+package TestDataInline;
+use base qw(Boilerplate::BundleInline);
 
 1;
 __DATA__
-=== lib/${classname}.pm ===
+=== lib/__classname__.pm ===
 package [% classname %];
 use strict;
 use warnings;
 
 1;
-=== t/${classname}.t ===
+=== t/__classname__.t ===
 use Test::More tests => 2;
 
 BEGIN {
