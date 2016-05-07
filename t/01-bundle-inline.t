@@ -1,6 +1,6 @@
 #!perl
 
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 BEGIN {
     use_ok( 'Boilerplate::BundleInline' );
@@ -53,3 +53,5 @@ is_deeply(TestDataInline->get_data_map, $data_map,"Get the data map");
 is_deeply(TestDataInline->get_default_include_paths, ["$Bin/inc", "$Bin/boilerplate"]);
 
 is(TestDataInline->get_bundle_base_path, $Bin);
+
+is(TestDataInline->process_file_path('lib/__classname__.pm',{classname => 'class'}),"lib/class.pm");
