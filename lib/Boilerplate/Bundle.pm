@@ -96,11 +96,38 @@ sub get_data_map {
 sub output_bundle {
     my ($self, $vars) = @_;
     my $map = $self->get_data_map;
-    my $tt = Template->new;
+    my $tt = $self->template;
     while(my ($file_path_template,$template) = each %$map) {
         my $outfile = $self->process_file_path($file_path_template,$vars);
         $tt->process(\$template, $vars, $outfile);
     }
+}
+
+=head2 _findBasePathFromClass
+
+=cut
+
+sub _findBasePathFromClass {
+    my ($class) = @_;
+    $class =~ s#::#/#g;
+    $class .= '.pm';
+    if (exists $INC{$class}) {
+        my $path = $INC{$class};
+        $path =~ s/.pm$//;
+        return $path;
+    }
+    return;
+}
+
+=head2 $self->template
+
+Get the template processor
+
+=cut
+
+sub template {
+    my ($self) = @_;
+    return Template->new;
 }
 
 =head2 process_file_path

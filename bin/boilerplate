@@ -36,20 +36,21 @@ our %options;
 
 GetOptions(\%options,"help|h","list|l","create|c") or pod2usage(2);
 pod2usage(1) if $options{help};
+my $boilerplate = Boilerplate->new;
 
 if ($options{list} ) {
-    exit Boilerplate->list_bundles();
+    exit $boilerplate->list_bundles();
 }
 
 if ($options{create}) {
-    exit Boilerplate->create_bundle_from_files(@ARGV);
+    exit $boilerplate->create_bundle_from_files(@ARGV);
 }
 
 unless (@ARGV) {
     pod2usage({ -msg => "No bundle provided", -exitval => 2 });
 }
 
-exit Boilerplate->create_boilerplate(@ARGV);
+exit $boilerplate->create_boilerplate(@ARGV);
 
 
 =head1 LICENSE AND COPYRIGHT
